@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Mobile Contacts</title>
+</head>
+<body>
+    <h1>Mobile Contacts Reader</h1>
+    <button id="getContactsBtn">Get Contacts</button>
+
+    <script>
+        document.getElementById('getContactsBtn').addEventListener('click', async () => {
+            try {
+                // Check if the browser supports the Contacts API
+                if ('contacts' in navigator && 'ContactsManager' in window) {
+                    const props = ['name', 'email', 'tel']; // Properties you want to request
+                    const opts = { multiple: true }; // Allows selecting multiple contacts
+
+                    // Prompt the user to select contacts
+                    const contacts = await navigator.contacts.select(props, opts);
+                    alert(JSON.stringify(contacts))
+                    // Print selected contacts in the console
+                    contacts.forEach(contact => {
+                        console.log(contact);
+                    });
+                } else {
+                    alert('Contacts API is not supported on this browser.');
+                }
+            } catch (error) {
+                alert('Error accessing contacts:'+ JSON.stringify(error));
+            }
+        });
+    </script>
+</body>
+</html>
